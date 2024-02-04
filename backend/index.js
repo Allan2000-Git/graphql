@@ -78,6 +78,11 @@ async function startServer(){
                     return newClient.save();
                 },
                 deleteClient: async (parent, {id}) => {
+                    Project.find({ clientId: id }).then((projects) => {
+                        projects.forEach((project) => {
+                            project.deleteOne();
+                        });
+                    });
                     const client = await Client.findByIdAndDelete(id);
                     return client;
                 },
